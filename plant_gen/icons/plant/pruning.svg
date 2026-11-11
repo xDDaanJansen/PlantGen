@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" color="#ffffff">
+<!-- PlantGen icon "pruning": 16 px grid, one colour (currentColor); dimmed parts carry opacity. Export: tools/export_icons.py -->
+<g transform="translate(1 1) scale(.875)"><path fill="currentColor" d="M6.6 15 V9.9 L9.4 8.3 V15Z"/><g opacity=".6"><path fill="currentColor" d="M8.2 6.4 L11 4.8 V1 H8.2Z"/><path fill="currentColor" d="M11.00 3.20 C12.69 3.69 14.31 2.79 14.60 1.20 C13.09 0.61 11.47 1.51 11.00 3.20Z"/></g><path fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" d="M3 11.4 L13 5.6"/></g>
+</svg>

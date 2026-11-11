@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" color="#ffffff">
+<!-- PlantGen icon "petiole": 16 px grid, one colour (currentColor); dimmed parts carry opacity. Export: tools/export_icons.py -->
+<g transform="translate(1 1) scale(.875)"><g opacity=".6"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M3 15 V1"/><path fill="currentColor" d="M8.60 7.40 C12.43 7.63 15.13 4.93 14.60 1.40 C11.07 0.87 8.37 3.57 8.60 7.40Z"/></g><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3.2 11.6 C5.6 11.2 7.4 9.8 8.6 7.4"/></g>
+</svg>

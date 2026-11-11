@@ -1,0 +1,604 @@
+{
+  "_about": "Hand-authored enrichment, keyed by dotted field path, merged into plantgen-spec.json by blender/spec.py. A note may set `description` (overrides the harvested tooltip), `endpoints` (a value -> visual-result map for look-shaping fields), and `see_also` (coupled fields worth setting together). Endpoint values are measured from the build record where noted. Do not hand-edit the generated spec; edit this and regenerate.",
+
+  "gravitropism": {
+    "endpoints": [
+      {"at": 0.0, "look": "no correction at all: the tip keeps whatever heading Growth Irregularity gives it, so the stem meanders and a tall one flops over"},
+      {"at": 0.35, "look": "gently self-righting: a natural, slightly wavy upright stem (the default herbaceous look)"},
+      {"at": 1.0, "look": "snaps back to and holds its target heading every step: a stiff, rigidly erect stem"}
+    ],
+    "see_also": ["circumnutation_deg", "autotropism", "growth_irregularity_deg"]
+  },
+  "growth_irregularity_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "ruler-straight segments; reads artificial and CAD-like"},
+      {"at": 3.5, "look": "a believable amount of natural wander (default)"},
+      {"at": 30.0, "look": "visibly gnarled and erratic; also the eccentricity that lets gravity find a lever on an otherwise dead-vertical stem"}
+    ],
+    "see_also": ["circumnutation_deg"]
+  },
+  "circumnutation_deg": {
+    "description": "The coherent, helical counterpart to Growth Irregularity: instead of wandering at random each step, the tip nods around a rotating azimuth, so it winds a tight spiral rather than sprawling -- the endogenous spiralling seen in growth timelapses. Measured, at the same per-step bend size an incoherent wander drifts ~68 mm off a 1.2 m stem while this coherent one stays a ~13 mm helix. Its amplitude is fought by Gravitropism, so on a stiff upright stem the nod is straightened almost as fast as it is made and reads faintly; lower Gravitropism, or raise Autotropism to keep the nod at the growing tip.",
+    "endpoints": [
+      {"at": 0.0, "look": "off: no helical nod (byte-identical to a plant without it)"},
+      {"at": 8.0, "look": "a gentle coherent spiral; a clear corkscrew at low Gravitropism, a faint helical waviness at the default"},
+      {"at": 15.0, "look": "a pronounced winding stem, over-coiled and floppy at low Gravitropism"}
+    ],
+    "see_also": ["circumnutation_rate_deg", "autotropism", "gravitropism", "growth_irregularity_deg"]
+  },
+  "circumnutation_rate_deg": {
+    "description": "How far the nod turns around the stem each step -- the pitch of the helix. Its sign is the handedness (positive winds one way, negative the other). Does nothing while Circumnutation is 0.",
+    "endpoints": [
+      {"at": 137.5, "look": "the golden angle: a tight, natural spiral (default)"},
+      {"at": 30.0, "look": "a long, stretched helix -- few gentle turns up the stem"},
+      {"at": -137.5, "look": "the same tight spiral wound the other way"}
+    ],
+    "see_also": ["circumnutation_deg"]
+  },
+  "autotropism": {
+    "description": "Age-stiffening: older stem straightens back toward its own gravitropic setpoint as it ages, applied once after growth. It leaves a mature stem tidy while the growing tip still nods -- the canonical 'straight stem, live circumnutating tip' of a timelapse. It only ever undoes wander, never adds it, and is a separate pass from Droop, which sags the finished stem down under load. With no Circumnutation it simply tidies the random Growth Irregularity of older stem.",
+    "endpoints": [
+      {"at": 0.0, "look": "off: the stem keeps its full wander/nod all the way down (a uniform helix)"},
+      {"at": 0.2, "look": "the lower stem straightens to true; the nod is confined to the top several nodes"},
+      {"at": 0.5, "look": "aggressive: only the top few nodes still move, on an otherwise ruler-true stem"}
+    ],
+    "see_also": ["circumnutation_deg", "gravitropism", "growth_irregularity_deg"]
+  },
+
+  "branch_angle_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "branch grows straight up alongside the parent (fastigiate, broom-like)"},
+      {"at": 45.0, "look": "a typical diagonal branch"},
+      {"at": 90.0, "look": "branch straight out sideways, horizontal (spreading, tiered)"}
+    ]
+  },
+  "leaf_angle_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "leaf pressed up flat against the stem (appressed, erect)"},
+      {"at": 45.0, "look": "a typical ascending leaf"},
+      {"at": 90.0, "look": "leaf straight out horizontal (spreading)"}
+    ]
+  },
+  "trunk_phyllotaxis.divergence_deg": {
+    "endpoints": [
+      {"at": 137.5, "look": "the golden angle: an even, non-repeating spiral (the classic Alternate default)"},
+      {"at": 180.0, "look": "successive leaves on opposite sides, reading like a two-ranked (distichous) stem"}
+    ]
+  },
+
+  "fork_angle_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "the two forks barely separate; the stem looks like it just continues"},
+      {"at": 30.0, "look": "a modest Y-fork (default)"},
+      {"at": 90.0, "look": "a wide, near-horizontal splay"},
+      {"at": 120.0, "look": "an extreme spread, forks nearly folded back"}
+    ]
+  },
+  "fork_twist_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "every fork stays in one plane: a flat 2-D fan (Selaginella)"},
+      {"at": 90.0, "look": "each generation turns a quarter, giving a full 3-D bush (Lycopodium); ~3x wider spread than a flat fan"},
+      {"at": 180.0, "look": "generations alternate plane, a looser open 3-D form"}
+    ]
+  },
+  "fork_balance": {
+    "endpoints": [
+      {"at": 0.0, "look": "equal forks, true dichotomy: two co-equal stems, no main trunk"},
+      {"at": 0.5, "look": "one fork clearly dominates as a trunk while the other peels off thinner and shorter (pseudomonopodial)"},
+      {"at": 1.0, "look": "the dominant fork runs almost straight on as a single leader, the weak one a small side branch"}
+    ]
+  },
+
+  "leaf_size": {
+    "description": "Multiplier on the leaf mesh's own size (1.0 = the mesh exactly as the user modelled it). Set relative proportions, not absolute size. Young leaves near a growing tip expand up from small automatically. Leaf mass scales with the SQUARE of this, so a bigger leaf also weighs more and droops its own stem a little further.",
+    "see_also": ["leaf_weight", "leaf_size_profile"]
+  },
+  "flower_size": {
+    "description": "Multiplier on the flower mesh's own size (1.0 = the mesh as modelled). This is the single flower-size control: the flower_size_profile curve grades it along the inflorescence and each flower's bloom-opening is folded in on top. Flower mass scales with the CUBE of this, so doubling a head's size makes it eight times heavier -- size and weight together decide how far a blooming tip nods.",
+    "see_also": ["flower_weight", "flower_size_profile", "flowering_droop"]
+  },
+  "tip_radius": {
+    "description": "Stem radius at a growing tip, in metres. Every thicker part of the plant is derived from what it supports (the pipe model), so this sets the whole plant's proportional thickness: raise it and everything thickens together, it does not just fatten the tips."
+  },
+
+  "internode_length": {
+    "endpoints": [
+      {"at": 0.02, "look": "very short internodes: a congested, rosette-like or cushion stem"},
+      {"at": 0.045, "look": "an ordinary perennial spacing (default)"},
+      {"at": 0.3, "look": "long bare internodes; combined with Whorled + Branches Per Node this is what tiers a monkey-puzzle (Araucaria)"}
+    ]
+  },
+  "internode_variation": {
+    "endpoints": [
+      {"at": 0.0, "look": "perfectly even node spacing"},
+      {"at": 0.18, "look": "a natural amount of node-to-node variation (default)"},
+      {"at": 1.0, "look": "wildly uneven spacing"}
+    ]
+  },
+
+  "branch_density": {
+    "description": "What fraction of axillary buds ever grow out into a branch; the rest stay dormant for life, as on a real plant. The main control for how bushy the species is. (When a forking Architecture is active, or Branches Per Node caps a node, this is ignored -- forks and quotas decide branch count instead.)",
+    "endpoints": [
+      {"at": 0.0, "look": "no branches at all: a single unbranched stem (~14 nodes on the default perennial)"},
+      {"at": 0.5, "look": "a moderately branched plant (default)"},
+      {"at": 1.0, "look": "every viable bud breaks: densely bushy (~635 nodes on the default perennial)"}
+    ],
+    "see_also": ["branching_zone", "apical_dominance_reach", "branches_per_node", "shade_tolerance"]
+  },
+  "apical_control": {
+    "endpoints": [
+      {"at": 0.05, "look": "branches are tiny and strongly subordinate to the leader: a slender, single-leadered plant (~17 nodes, 0.5 m)"},
+      {"at": 0.75, "look": "branches noticeably smaller than the leader (default)"},
+      {"at": 1.0, "look": "branches match the leader in vigour, internode length and node count: reads as a shrub (~319 nodes, 1.1 m)"}
+    ]
+  },
+  "apical_dominance_reach": {
+    "endpoints": [
+      {"at": 0, "look": "no suppression: buds may break right up to the growing tip"},
+      {"at": 5, "look": "the top few nodes stay dormant, so branching trails the tip (default)"},
+      {"at": 40, "look": "a long dominance zone: the stem stays unbranched far back from the tip"}
+    ]
+  },
+  "branching_zone": {
+    "endpoints": [
+      {"at": 0.4, "look": "branches only in the top 40% of the stem: a bare lower stem with a branched crown"},
+      {"at": 1.0, "look": "the whole stem may branch (default)"}
+    ]
+  },
+  "shade_tolerance": {
+    "endpoints": [
+      {"at": 0.0, "look": "buds break only in full sky: the plant thins hard inside its own canopy and under anything overhead (~7 axes, 40 leaves on the test plant)"},
+      {"at": 0.5, "look": "moderate self-thinning in shade (~14 axes, 92 leaves)"},
+      {"at": 1.0, "look": "ignores light entirely: full bushiness everywhere, no environment response (~27 axes, 153 leaves) -- and the light field is skipped, so it costs nothing"}
+    ],
+    "see_also": ["light_seeking", "obstacle_clearance"]
+  },
+  "light_seeking": {
+    "endpoints": [
+      {"at": 0.0, "look": "ignores light direction; only gravity and the setpoint steer growth"},
+      {"at": 1.0, "look": "tips lean strongly out from under whatever shades them each step (phototropic reaching)"}
+    ],
+    "see_also": ["flower_heliotropism", "leaf_heliotropism"]
+  },
+  "flower_heliotropism": {
+    "description": "How far each flower turns its face toward the sun, as a post-growth re-aim -- the nodding-sunflower case: the stem stays where gravity left it, the head still turns to the sun. The sun is any object you pick for the plant to track (its Sun Object): flowers face wherever it sits relative to the plant, so move it to place the sun. No object picked, no effect. The strength and the Sun Object are each flower component's own (in its Inflorescence box), so one inflorescence can track while another does not; a variant component's flowers take those of the inflorescence they grow on. The flower's own stalk curves with it as one even arc (no joint turning more than 7 degrees): a pedicel from its node, a capped flower's top internode from the node below -- only where no branch leaves that internode, so a dichasium's central flowers turn on straight stalks. Distinct from light_seeking, which turns growing shoots toward a light gradient rather than re-aiming the organs on them.",
+    "endpoints": [
+      {"at": 0.0, "look": "off: flowers face wherever their stalk and pitch aimed them"},
+      {"at": 0.5, "look": "each flower turns halfway from its grown facing toward the sun"},
+      {"at": 1.0, "look": "every flower faces the sun exactly, however its stalk hangs"}
+    ],
+    "see_also": ["leaf_heliotropism", "light_seeking", "pedicel_droop"]
+  },
+  "leaf_heliotropism": {
+    "description": "How far each leaf turns its blade to face the sun (diaheliotropic, the light-gathering pose), a post-growth re-aim like flower_heliotropism and sharing the same tracked Sun Object. Its own strength because a species may track one organ and not the other. Distinct from an ALIGN effector, which twists the whole growth frame -- rotating the leaf set and the branches with it -- rather than pointing each blade at the sun; ALIGN barely moves aggregate sun-facing on a spiral phyllotaxis, where this points every blade at the sun.",
+    "endpoints": [
+      {"at": 0.0, "look": "off: leaves lie however they grew"},
+      {"at": 0.5, "look": "blades turn halfway toward facing the sun"},
+      {"at": 1.0, "look": "every blade's broad face points at the sun"}
+    ],
+    "see_also": ["flower_heliotropism", "light_seeking"]
+  },
+  "obstacle_clearance": {
+    "endpoints": [
+      {"at": 0.0, "look": "obstacle response off entirely; tips ignore surfaces"},
+      {"at": 0.5, "look": "tips curve away well before a surface and stop rather than grow through it"}
+    ]
+  },
+  "branches_per_node": {
+    "endpoints": [
+      {"at": 0, "look": "no cap: each bud competes on Branch Density alone, so an opposite/whorled node throws a random count (default)"},
+      {"at": 1, "look": "exactly one branch per multi-bud node: sub-opposite branching on an opposite plant"},
+      {"at": 2, "look": "a reliable pair per node: e.g. two of a five-way whorl"}
+    ]
+  },
+
+  "droop": {
+    "description": "How far the whole grown plant sags under its own weight, applied AFTER growth (it bends the finished structure, it does not change what is attached to what -- that is Gravitropism). Resisted by Stem Stiffness; driven by the organ weights. A heavier flower nods its own stem further.",
+    "endpoints": [
+      {"at": 0.0, "look": "rigid: the plant holds exactly the shape it grew"},
+      {"at": 0.35, "look": "a gentle, natural sag (default)"},
+      {"at": 1.0, "look": "clearly weeping tips and outer branches"},
+      {"at": 2.0, "look": "folds over heavily under its own mass"}
+    ],
+    "see_also": ["stem_stiffness", "rigid_base", "flower_weight", "leaf_weight"]
+  },
+  "stem_stiffness": {
+    "description": "How strongly stems resist bending, as an elastic modulus (the number stored in the preset). Because thick parts already resist far more than thin ones (resistance goes as radius to the fourth power), raising this mostly straightens the tips and outer branches while the base barely moves. Low (~1e7) is limp and herbaceous; the default 1.5e8 is a firm green stem; high (~1e9+) is woody and stiff.",
+    "endpoints": [
+      {"at": 10000000.0, "look": "limp, floppy stems"},
+      {"at": 150000000.0, "look": "a firm herbaceous stem (default)"},
+      {"at": 1000000000.0, "look": "woody, stiff; only the thinnest tips give at all"}
+    ],
+    "see_also": ["droop"]
+  },
+  "rigid_base": {
+    "description": "What fraction of each stem, measured from the ground up, stays stiff and unbending -- so the bend is concentrated above it, the way a lignified (woody) base carries a softer flowering tip. This only MOVES the bend, it does not reduce it: the same curvature is packed into a shorter stretch, so Droop and the organ weights still decide how far it goes.",
+    "endpoints": [
+      {"at": 0.0, "look": "the whole stem may curve: a plant folding over from the ground"},
+      {"at": 0.5, "look": "the lower half holds firm, the upper half carries the bend"},
+      {"at": 0.9, "look": "the lower 90% stays stiff and erect, so a heavy head nods only at the very top, like a poppy on its stalk"},
+      {"at": 0.99, "look": "a stiff, erect stalk that gives only at its very tip"}
+    ]
+  },
+  "flowering_droop": {
+    "description": "How far the stretch of stem carrying the flowers turns over, on TOP of Droop -- stated as an angle, so it means the same on every plant whatever the flowers weigh. Raising it lengthens the drooping arc rather than tightening it: the flower swings further out and down at one steady radius. Where along the stem it happens is Rigid Base; how far below the lowest flower it may reach is Peduncle Reach.",
+    "endpoints": [
+      {"at": 0.0, "look": "the flowering stretch holds the heading it grew (no extra nod)"},
+      {"at": 0.25, "look": "turned ~45 degrees over"},
+      {"at": 0.5, "look": "brought to horizontal (~90 degrees over): a nodding head"},
+      {"at": 0.75, "look": "past horizontal, ~135 degrees, clearly hanging"},
+      {"at": 1.0, "look": "hangs straight down (~180 degrees): a fully pendent spike or head"}
+    ],
+    "see_also": ["peduncle_reach", "rigid_base", "peduncle_resolution", "flower_weight"]
+  },
+  "peduncle_reach": {
+    "description": "How far below the lowest flower the drooping stretch extends, as real stem length in metres. This SPREADS the turn, it does not add to it: at 0 the whole bend lands on one node and hooks sharply; longer values curve it over more stem to the same final angle. A solitary flower sits on the very tip, so it needs some of this just to have a stalk to bend.",
+    "endpoints": [
+      {"at": 0.0, "look": "a sharp one-node hook right under the flower"},
+      {"at": 0.1, "look": "the bend spread over a short arch"},
+      {"at": 0.5, "look": "a long gentle sweep down a good length of stem"}
+    ],
+    "see_also": ["flowering_droop", "rigid_base"]
+  },
+  "peduncle_resolution": {
+    "endpoints": [
+      {"at": 1, "look": "no extra segments: on a short drooping stretch a big turn reads as two hard facets (default)"},
+      {"at": 4, "look": "each internode in the bending stretch split in four: a smooth curve"},
+      {"at": 8, "look": "very smooth; only needed where a large droop lands on very few nodes"}
+    ]
+  },
+
+  "inflorescence.pedicel_angle_deg": {
+    "endpoints": [
+      {"at": -90.0, "look": "pedicel pressed flat down against the stem"},
+      {"at": 0.0, "look": "pedicel straight out sideways, horizontal (default is +30, a little upswept)"},
+      {"at": 90.0, "look": "pedicel pressed flat up against the stem toward the tip"}
+    ]
+  },
+  "inflorescence.flower_pitch_deg": {
+    "description": "Which way each flower faces, stated like Pedicel Angle and measured the same way. Separate from the pedicel's own angle, so a hanging flower and an outward one can share one pedicel shape. Set it equal to Pedicel Angle to point straight along the pedicel.",
+    "endpoints": [
+      {"at": -90.0, "look": "flower nods straight down (a hanging bell, like foxglove)"},
+      {"at": 0.0, "look": "flower faces straight out sideways (default)"},
+      {"at": 90.0, "look": "flower faces straight up (like a buttercup held to the sky)"}
+    ]
+  },
+  "inflorescence.branch_angle_deg": {
+    "description": "Which way an inflorescence branch (or a cyme relay) leaves the main stem, measured from perpendicular. The single biggest control over whether a panicle reads as open and diffuse or contracted and spike-like. On a cyme it is the zigzag angle: the kink between one relay and the spent tip above it is exactly 90 minus this.",
+    "endpoints": [
+      {"at": -90.0, "look": "branch flat down the stem (strongly drooping panicle)"},
+      {"at": 0.0, "look": "branch straight out sideways: a wide, open, diffuse panicle"},
+      {"at": 45.0, "look": "branches ascending at a diagonal (default)"},
+      {"at": 90.0, "look": "branches flat up against the stem: a narrow, contracted, spike-like panicle"}
+    ]
+  },
+  "inflorescence.relay_rotation_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "with 1 relay/node, every shoot on the same side: the cyme coils (helicoid)"},
+      {"at": 90.0, "look": "with 2 relays/node, successive forks cross instead of stacking flat (decussate dichasium)"},
+      {"at": 180.0, "look": "with 1 relay/node, shoots alternate sides and the spray zigzags in a plane (scorpioid)"}
+    ]
+  },
+  "inflorescence.orientation_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "continues straight along the parent stem's heading"},
+      {"at": 90.0, "look": "held perpendicular to the parent stem"},
+      {"at": 180.0, "look": "doubled fully back on the parent (straight down if the parent points up): a pendent chain"}
+    ]
+  },
+  "inflorescence.orientation_strength": {
+    "endpoints": [
+      {"at": 0.0, "look": "keeps exactly the direction it grew at; the mode's preference is ignored"},
+      {"at": 0.5, "look": "pulled halfway toward the preferred direction, over a gentle arc"},
+      {"at": 1.0, "look": "pulled fully onto the preference (though weight still bends it further); the arc onto it is at its sharpest"}
+    ]
+  },
+  "inflorescence.pedicel_bend": {
+    "description": "How strongly each pedicel curves along its length. This is SHAPE only and does NOT move the flower -- the pedicel arcs between the same two endpoints, so Length and Angle still decide where the flower sits.",
+    "endpoints": [
+      {"at": 0.0, "look": "straight spokes"},
+      {"at": 0.7, "look": "leaves the stem sideways and turns up on its way to the flower, the way a corymb does (default)"},
+      {"at": 1.0, "look": "a strong curve (never wider than the flower's own reach)"}
+    ],
+    "see_also": ["inflorescence.pedicel_droop", "inflorescence.pedicel_angle_deg"]
+  },
+  "inflorescence.pedicel_droop": {
+    "description": "How far a full-size flower turns its own pedicel out of the way it was aimed. Unlike Bend, this DOES move the flower: the whole pedicel rotates and carries the flower with it, so it reads as hanging under its own weight. Measured against gravity (does not turn with the stem). It is SCALED BY flower_weight, so it is nearly inert on a light flower however you set the factor (measured: at flower_weight 0.00015 a factor of -0.7 gives the same -5 deg as 0; at 0.004 it gives -66 deg). Use it for a heavy flower sagging on its stalk, and raise flower_weight with it. For a light flower you want pointing down regardless of weight, aim it with pedicel_angle_deg instead -- that is a pure geometric angle. The flower faces wherever its pedicel ends up.",
+    "endpoints": [
+      {"at": -1.0, "look": "pedicel hangs straight down (only if flower_weight is substantial)"},
+      {"at": 0.0, "look": "pedicel stays at the angle it was aimed (by pedicel_angle_deg)"},
+      {"at": 1.0, "look": "pedicel lifted toward vertical (only if flower_weight is substantial)"}
+    ],
+    "see_also": ["flower_weight", "inflorescence.pedicel_angle_deg", "inflorescence.pedicel_bend"]
+  },
+  "inflorescence.head_dome": {
+    "description": "How far the outer flowers of a flat-topped head sit below (or above) the middle ones, as a fraction of Head Radius. The curve beside it is the head's own cross-section from centre to rim. Only Corymb and Flat Umbel.",
+    "endpoints": [
+      {"at": -1.0, "look": "the rim rises a full radius above the centre: a cupped bowl"},
+      {"at": 0.0, "look": "dead flat (a true flat-top corymb)"},
+      {"at": 1.0, "look": "the rim drops a full radius below the centre: a rounded mound as tall as it is wide"}
+    ]
+  },
+  "inflorescence.cluster_spread_deg": {
+    "description": "How wide an umbel opens. Flowers fill the whole dome including its centre, not just its rim.",
+    "endpoints": [
+      {"at": 10.0, "look": "a tight, nearly parallel cone of flowers"},
+      {"at": 180.0, "look": "a flat hemisphere (a classic umbel)"},
+      {"at": 360.0, "look": "a complete sphere of flowers: an Allium globe or an ivy head"}
+    ]
+  },
+  "inflorescence.flower_spread_deg": {
+    "endpoints": [
+      {"at": 0.0, "look": "every flower on a single line up one side (strongly secund)"},
+      {"at": 90.0, "look": "flowers crowded onto a quarter of the stem's circumference (one-sided, like foxglove)"},
+      {"at": 180.0, "look": "flowers over half the circumference"},
+      {"at": 360.0, "look": "the full circle the leaf arrangement gives (default, all round the stem)"}
+    ]
+  },
+  "inflorescence.pedicel_width": {
+    "endpoints": [
+      {"at": 0.01, "look": "hair-fine pedicels"},
+      {"at": 0.3, "look": "conspicuously finer than the stem (default), as most plants carry them"},
+      {"at": 1.0, "look": "as thick as the stem itself: reads as a short branch, not a flower stalk"}
+    ]
+  },
+  "inflorescence.branch_width": {
+    "endpoints": [
+      {"at": 0.01, "look": "thread-thin branches"},
+      {"at": 0.6, "look": "clearly finer than the stem they leave (default)"},
+      {"at": 1.0, "look": "as thick as the stem at that point (the maximum -- a branch is never thicker than what carries it)"}
+    ]
+  },
+  "inflorescence.branch_bend": {
+    "description": "A steady arch along each inflorescence branch, held in the branch's own plane, so it turns WITH the branch rather than heading for the ground. This is shape; Branch Droop is weight.",
+    "endpoints": [
+      {"at": -1.0, "look": "a quarter turn arching one way"},
+      {"at": 0.0, "look": "straight branches"},
+      {"at": 1.0, "look": "a quarter turn arching the other way over the branch's length"}
+    ],
+    "see_also": ["inflorescence.branch_droop"]
+  },
+  "inflorescence.branch_droop": {
+    "description": "How far an inflorescence branch turns out of the way it was aimed, over its whole length, measured against gravity (does not turn with the branch). Distinct from Peduncle Droop, which only bends the stretch below the lowest flower and so cannot touch a branch that carries branches rather than flowers.",
+    "endpoints": [
+      {"at": -1.0, "look": "branch hangs straight down (a weeping panicle like Buddleja)"},
+      {"at": 0.0, "look": "branch holds the angle it was aimed"},
+      {"at": 1.0, "look": "branch swept up toward vertical (an erect, upswept panicle)"}
+    ],
+    "see_also": ["inflorescence.branch_bend"]
+  },
+  "inflorescence.internode_scale": {
+    "endpoints": [
+      {"at": 0.02, "look": "flowers packed almost on top of each other: a dense spike or head"},
+      {"at": 0.5, "look": "the flowering region tighter than the leafy stem below it (default)"},
+      {"at": 2.0, "look": "flowers spaced further apart than the stem's own leaves: a lax, open raceme"}
+    ]
+  },
+
+  "leaf_curl": {
+    "description": "Bends each leaf out of its own face, along its length (front-to-back). 1 is a half turn over the whole blade.",
+    "endpoints": [
+      {"at": -2.0, "look": "curls fully under into a downward tube"},
+      {"at": -1.0, "look": "the blade cups downward along its length"},
+      {"at": 0.0, "look": "flat"},
+      {"at": 1.0, "look": "the blade cups upward along its length"},
+      {"at": 2.0, "look": "curls fully up into a tube"}
+    ]
+  },
+  "leaf_cup": {
+    "description": "Folds the two long edges of each leaf into a trough, across its width.",
+    "endpoints": [
+      {"at": -2.0, "look": "edges dropped hard into a downward keel"},
+      {"at": 0.0, "look": "flat across the width"},
+      {"at": 2.0, "look": "edges lifted hard into a deep upward channel"}
+    ]
+  },
+  "leaf_gravity": {
+    "description": "Bends each whole leaf up or down regardless of which way it points, as sag under its own weight. Stops at vertical rather than curling back, so past 1 the leaf turns over nearer its base and more of it hangs straight.",
+    "endpoints": [
+      {"at": -2.0, "look": "the blade droops steeply toward the ground, turning over near the base"},
+      {"at": 0.0, "look": "no gravity bend"},
+      {"at": 2.0, "look": "the blade is lifted steeply upward"}
+    ]
+  },
+  "leaf_twist": {
+    "description": "Turns each leaf about its own length, accumulating toward the tip, so the blade winds like a ribbon. 1 is a half turn from base to tip.",
+    "endpoints": [
+      {"at": -2.0, "look": "a full turn winding one way"},
+      {"at": 0.0, "look": "no twist"},
+      {"at": 2.0, "look": "a full turn winding the other way"}
+    ]
+  },
+  "leaf_wave_amplitude": {
+    "endpoints": [
+      {"at": -1.0, "look": "a strong ripple down the edges, first crest one way"},
+      {"at": 0.0, "look": "straight edges"},
+      {"at": 1.0, "look": "a strong ripple, first crest the other way (crinkled/undulate margin)"}
+    ]
+  },
+  "leaf_wave_frequency": {
+    "endpoints": [
+      {"at": 0.0, "look": "no crests (one long bend)"},
+      {"at": 2.0, "look": "a couple of gentle waves down the blade (default)"},
+      {"at": 8.0, "look": "many tight crinkles"}
+    ]
+  },
+  "leaf_yaw_deg": {
+    "description": "Swings each leaf left or right within its own plane, without tilting it -- the blade stays as flat as it was and simply no longer points straight out from the stem.",
+    "endpoints": [
+      {"at": -180.0, "look": "swung fully back toward the stem base on one side"},
+      {"at": 0.0, "look": "points straight out from the stem"},
+      {"at": 180.0, "look": "swung fully back on the other side"}
+    ]
+  },
+  "leaf_roll_deg": {
+    "description": "Rotates each leaf about its own midrib, so its face stops being flat to the sky without the blade pointing anywhere new.",
+    "endpoints": [
+      {"at": -180.0, "look": "rolled fully over, underside up"},
+      {"at": 0.0, "look": "face flat to the sky"},
+      {"at": 90.0, "look": "blade turned on edge"}
+    ]
+  },
+
+  "leaf_weight": {
+    "description": "How heavy a full-size leaf is, on the same relative scale as Flower Weight. Leaf mass is small against stem stiffness on most plants, so this reads far more subtly than the flower's. Effective mass scales with the square of Leaf Size.",
+    "see_also": ["droop", "leaf_size"]
+  },
+  "flower_weight": {
+    "description": "How heavy a full-size flower or head is, on a relative scale. This is the main thing that nods a blooming tip: a heavy head on a thin stem hangs, a light one stands up. Effective mass grows with the CUBE of Flower Size, so size and weight together decide the droop.",
+    "see_also": ["droop", "flower_size", "flowering_droop"]
+  },
+
+  "fruit_size": {
+    "description": "Size of each ripe fruit, a multiplier on the fruit asset mesh (mesh-driven, like Flower Size). A fruit is its own organ at its own size, not the flower it set from. Effective mass grows with the CUBE of Fruit Size, so a big fruit bows the branch far harder.",
+    "see_also": ["fruit_weight", "fruit_set"]
+  },
+  "fruit_weight": {
+    "description": "How heavy a full-size ripe fruit is, on the same relative scale as Flower Weight but heavier -- what bows a fruiting branch. Fruit exists only inside the calendar fruit window, so the branch droops as fruit ripens and springs back after fruit-drop. Effective mass grows with the CUBE of Fruit Size.",
+    "see_also": ["droop", "fruit_size", "flowering_droop"]
+  },
+  "fruit_set": {
+    "description": "Fraction of flowers that set fruit, rolled per flower. The rest are unpollinated and drop at fruit-set. Only affects the day path, inside the calendar fruit window.",
+    "endpoints": [
+      {"at": 1.0, "look": "every flower becomes a fruit"},
+      {"at": 0.5, "look": "about half of the flowers set; the rest drop"},
+      {"at": 0.0, "look": "no fruit sets"}
+    ],
+    "see_also": ["fruit_size", "fruit_weight"]
+  },
+
+  "flatten": {
+    "endpoints": [
+      {"at": 0.0, "look": "a round stem"},
+      {"at": 0.6, "look": "an oval, clearly flattened stem (default)"},
+      {"at": 0.98, "look": "a thin ribbon (a cladode-like flattened stem)"}
+    ]
+  },
+  "lobe_depth": {
+    "endpoints": [
+      {"at": 0.0, "look": "no ridges: the same as a plain polygon of the given side count"},
+      {"at": 1.0, "look": "ridges standing a full radius out: deep wings, ribs or star points"}
+    ]
+  },
+  "catkin_length": {
+    "endpoints": [
+      {"at": 0.0, "look": "no catkins at all"},
+      {"at": 0.075, "look": "a hazel-length hanging catkin"},
+      {"at": 0.3, "look": "a long birch/willow-length catkin"}
+    ]
+  },
+  "catkin_width": {
+    "endpoints": [
+      {"at": 0.0001, "look": "a thread-thin catkin"},
+      {"at": 0.004, "look": "a typical fat hazel catkin (default)"},
+      {"at": 0.02, "look": "a very stout catkin body"}
+    ]
+  },
+
+  "senescence_shade_threshold": {
+    "endpoints": [
+      {"at": 0.0, "look": "nothing ever dies of shade (default)"},
+      {"at": 0.5, "look": "branches in moderate shade die back, taking their subtree with them: a lifted, bare lower crown"},
+      {"at": 1.0, "look": "anything not in full sky dies: only the outermost lit shell of the plant survives"}
+    ]
+  },
+
+  "name": {
+    "description": "The species/preset name shown in the Library and stamped on each plant made from it."
+  },
+  "basal_splay_deg": {
+    "description": "How far the stems of a multi-stem clump lean out from vertical at ground level. Larger fans the clump wider at its base. Only meaningful when Axis Architecture is multi_stem."
+  },
+  "habit": {
+    "description": "Legacy growth-habit string, superseded by Architecture. Leave at 'monopodial'; set the Architecture field instead."
+  },
+  "max_steps": {
+    "description": "SPECIES timing: the number of developmental steps from seedling to full maturity -- the whole length of the plant's timeline. Age 0..1 maps onto step 0..max_steps. Longer gives a larger, more built-out mature plant but a slower grow. Widened automatically if Flower Count or branching needs more room."
+  },
+  "plastochron": {
+    "description": "SPECIES timing: how many developmental steps pass between one node appearing and the next. 1 lays a node every step."
+  },
+  "elongation_steps": {
+    "description": "SPECIES timing: how many steps a freshly made internode takes to stretch from nothing to full length."
+  },
+  "leaf_expansion_steps": {
+    "description": "SPECIES timing: how many steps a new leaf takes to expand from a small primordium to full size. This is the maturity cue that keeps young leaves near a tip small."
+  },
+  "pipe_per_leaf": {
+    "description": "SPECIES/physics: how much stem thickness each leaf adds through the pipe model (a cross-section is as thick as the foliage it must supply). Higher makes leafy stems stouter."
+  },
+  "wood_density": {
+    "description": "SPECIES/physics: mass per unit volume of stem tissue. Feeds the self-weight that Droop bends; heavier wood sags more for the same stiffness."
+  },
+  "catkin_density": {
+    "description": "SPECIES/mesh: how many rings are swept along a catkin's length -- its mesh resolution, not a shape control. Raise only if a long catkin looks faceted."
+  },
+  "inflorescence.placement.slide": {
+    "description": "SPECIES: shifts the whole flowering/placement window up or down the stem without changing its width. Positive slides it toward the tip."
+  },
+  "inflorescence.topology_override": {
+    "description": "SPECIES/advanced: forces a specific structural topology regardless of the chosen Kind (blank = derive it from the Kind, which is almost always right). Used only when a species needs a form the Kind name cannot state. Copy from a preset rather than setting by hand."
+  },
+  "veg.apex": {
+    "description": "SPECIES/advanced (the vegetativeness model): how floral the growing apex is. Leave veg unset: a tip then flowers exactly when the inflorescence is Terminal, and flowers along the stems come from its Axillary / Internodal / Leaf-opposed attachments. Copy veg.* from a preset only for forms the attachments cannot express (e.g. a true panicle vs a cyme)."
+  },
+  "veg.lateral_offset": {
+    "description": "SPECIES/advanced: how floral the lateral buds are RELATIVE to the apex. Opposite sign to the apex gives the determinate/indeterminate contrast that produces the different inflorescence forms. Copy from a preset."
+  },
+  "veg.decline": {
+    "description": "SPECIES/advanced: how fast a meristem loses vegetativeness as the plant ages -- the rate of the floral transition. Copy from a preset."
+  },
+  "veg.threshold": {
+    "description": "SPECIES/advanced: the vegetativeness level at which a meristem switches to making flowers. Copy from a preset."
+  },
+
+  "pipe_per_leaf": {
+    "description": "SPECIES / physics: how much stem thickness each leaf adds through the pipe model, where a cross-section is sized to the foliage plus structural load it must carry. Higher makes a leafy stem visibly stouter for the same leaf count; at 0 the stem is sized by its structural load alone and a heavily-leaved plant looks too thin. Typical range about 0.1 to 1.0 (default 0.35): 0.1 to 0.2 for a fine grass, 0.3 to 0.5 for a soft perennial, 0.7 to 1.0 for a stout, heavily-foliaged stem."
+  },
+  "wood_density": {
+    "description": "SPECIES / physics: the stem tissue's mass per unit volume, in kg/m3. It feeds the self-weight that Droop bends, so denser wood sags more for the same stiffness. Real references: balsa about 150; softwoods (pine, spruce, fir) about 350 to 450; medium hardwoods (birch, cherry) about 600 to 650; dense hardwoods (oak about 700, beech 720, maple 750); and the hardest (ebony, lignum vitae) over 1000. The default 500 sits between a softwood and a light hardwood; a green herbaceous stem behaves like the low end, seasoned hardwood the high end."
+  },
+
+  "branching_onset": {
+    "description": "The gate on branching over the plant's life: the value at a given Age is how freely axillary buds may break then. Held near 0 through youth keeps a young plant unbranched; rising to 1 lets it bush out as it matures. A step makes a plant that suddenly starts branching at one age; a ramp spreads branching across its development. It is permission, not a schedule, so a bud still has to clear apical dominance and Branch Density on top of this."
+  },
+  "apical_dominance": {
+    "description": "How strongly the growing leader suppresses the buds below it, over the plant's life. Held high early (the default keeps 1 through youth) gives a single dominant stem; letting it fall with Age releases the laterals so the plant bushes out as it grows, the usual perennial pattern. Hold it high throughout for a plant that never lets its side branches away."
+  },
+  "flowering_onset": {
+    "description": "The gate on flowering over the plant's life: below the curve an axis cannot flower yet, whatever its node count. It opens flowering as the plant matures. Deliberately reaches 1 well before an axis finishes its nodes, so it is a permission gate rather than a bloom schedule; the moment an axis actually flowers is set structurally by Nodes Before Flowering."
+  },
+  "internode_profile": {
+    "description": "The length of each internode along an axis, base to tip, as a multiplier on Internode Length. Even (flat) gives regular spacing; low at the base then rising sharply is a rosette that bolts, with crowded leaves near the ground and a long bare spire above; high at the base falling off spaces the plant out low and tightens it toward the tip. Shapes the plant without changing its node count."
+  },
+  "branch_angle_profile": {
+    "description": "How a side branch's angle varies up the stem, base to tip, as a multiplier on Branch Angle. Wider at the base gives the classic conical outline, a spreading skirt under a tighter crown; flat holds every branch at the same angle."
+  },
+  "lateral_vigour": {
+    "description": "How much of the parent's vigour a side branch inherits, by where it attaches up the stem, vigour meaning its growth rate, internode length and node count together. Higher at the base (the default falls base to tip) makes the lower branches longer and better developed, which is what gives a tree or a panicle its tapered, pyramidal silhouette; flat makes every branch equally strong."
+  },
+  "elongation": {
+    "description": "How a freshly made internode stretches from nothing to full length over its Elongation Steps: the horizontal axis is that internode's own growth time, not position on the plant. A gentle ease-out reads as natural extension, a straight ramp as mechanical. This is why a young tip's internodes are still short, they have not finished elongating."
+  },
+  "leaf_expansion": {
+    "description": "How a new leaf expands from a tiny primordium to full size over its Leaf Expansion Steps: the horizontal axis is the leaf's own growth time. It is the maturity cue that keeps leaves near a growing tip small while older leaves lower down are full-sized, all on the one Age dial."
+  },
+  "leaf_size_profile": {
+    "description": "Leaf size along the stem, base to tip, as a multiplier on Leaf Size. Larger at the base is the common case, big basal leaves giving way to smaller ones up the stem; a rosette species drops it hard just above the base."
+  },
+  "leaf_angle_profile": {
+    "description": "How a leaf's angle varies up the stem, base to tip, as a multiplier on Leaf Angle. Opening the base, so lower leaves sit more horizontal and upper ones more erect, reads as a plant presenting its lower leaves to the light."
+  },
+  "leaf_form_profile": {
+    "description": "The probability, by the Age a leaf is born, that it takes the ADULT form rather than the juvenile one (heteroblasty). A step is a clean switch from juvenile to adult foliage at one age; a ramp gives a band where both appear together, which is what a real phase change looks like. Driven by the plant's age at the leaf's birth, not its height, so a branch made late carries adult leaves even at its base. Needs both a juvenile and an adult leaf collection assigned, and is inert otherwise."
+  },
+  "stiffness_profile": {
+    "description": "How stem stiffness varies along an axis, base to tip, as a multiplier on Stem Stiffness. Stiffer at the base and softer toward the tip, a woody base under a green tip, lets a plant hold itself up while its tips still nod; flat treats the whole stem as one material. Because bending resistance goes as the fourth power of radius, the taper already does most of this, so the curve is a finer adjustment on top of it."
+  },
+  "radius_profile": {
+    "description": "The stem's radius from base to tip, as a fraction of its base thickness: the taper. The default falls smoothly to a point; a curve that stays full then drops late gives a stem that holds its girth before tapering, and one that thins fast gives a whippy stem. This shapes the swept tube only, the pipe model still sets the base thickness from what the stem carries."
+  },
+  "senescence_onset": {
+    "description": "When a branch becomes eligible to die back, over the plant's life. Only matters when a senescence trigger is on (Shade Threshold, or age dieback): it holds the plant whole early and lets the oldest, most-shaded parts drop as it matures."
+  }
+}

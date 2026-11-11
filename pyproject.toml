@@ -1,0 +1,29 @@
+[project]
+name = "plant_gen"
+version = "1.0.0"
+description = "Procedural perennial plants for Blender, grown by simulation, with leaf and flower generators"
+requires-python = ">=3.11"
+license = "GPL-3.0-or-later"
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    # Type stubs for bpy/bmesh/etc so Pylance/pyright understand Blender's API
+    # outside of Blender itself. Match the numbered variant to bl_info's
+    # minimum Blender version.
+    "fake-bpy-module-5.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["__pycache__"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+    "F401", # unused imports: bpy classes are often imported for side-effect registration
+]
+
+[tool.ruff.format]
+quote-style = "double"

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Packaged add-on build output (regenerate via tools/build_zip.py)
+/plant_gen.zip
+/*.zip
+
+# Blender backups
+*.blend1
+*.blend2
+*.blend@
+
+# Editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env / tooling
+.venv/
+venv/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/

@@ -1,0 +1,73 @@
+# PlantGen
+
+> A Blender add-on that generates a whole plant — stem, leaves, inflorescence,
+> physics — from one data structure, the `MorphologyProfile`. This directory is
+> the machine-facing spec for authoring that structure. Your job: given a target
+> plant, emit a **preset JSON** (the exact envelope the add-on loads) that best
+> approximates it. Files are relative to this directory; the repo base is
+> `plant_gen/`.
+
+## Instructions for LLM agents
+
+**What you set vs. what the user provides.** You author every *parameter* — habit,
+architecture, phyllotaxis, placement, inflorescence kind and structure, angles,
+densities, curves, sizes (as multipliers), blade deformers, cross-section,
+physics. The **user provides the asset meshes** — the leaf-blade outline, the
+flower / petal form, bud / bract / catkin geometry — and does final tweaks. Never
+try to author a blade or petal *shape* through parameters; when a look needs a
+specific mesh, tell the user to model it and say which collection it goes in.
+
+**Sizes are multipliers on those meshes** (`1.0` = the mesh as modelled), so set
+*relative proportions*, not absolute size.
+
+**The load-bearing rules** (full detail in `plantgen-couplings.md`):
+1. **Pick `inflorescence.kind` first** — it decides which other inflorescence
+   controls do anything (the `inflorescence_kinds` capability table in the spec).
+   Setting an inert control is wasted.
+2. **Mass scales with size**: flower mass ∝ size³, leaf ∝ size². A big flower
+   nods its stem hard — lower `flower_weight` or raise stiffness if you don't
+   want that.
+3. **The bend group multiplies** (`droop` × `stem_stiffness` × `rigid_base` ×
+   weights). If a bend looks inert, `stem_stiffness`/`rigid_base` are the usual
+   cause. To make things hang, reach for `flowering_droop` (heads), `branch_droop`
+   (panicles), `pedicel_droop`/negative `pedicel_angle` (racemes).
+4. **Age drives development.** Development curves read seedling→mature; profile
+   curves read base→tip. Don't mix the two axes.
+5. **Environment modifies, never drives.** Leave `shade_tolerance` 1,
+   `light_seeking` 0, `obstacle_clearance` 0 unless the target names shade,
+   phototropism, or an obstacle.
+6. **Thickness is derived** (pipe model): `tip_radius` scales the whole plant;
+   pedicel/branch widths are fractions of their parent (≤ 1).
+
+**Curves** are named shapes: set `{"shape": "<key>"}` from `curve_shapes` in the
+spec; raw points are a rare escape hatch.
+
+**Then verify**: the preset must load via the add-on's `serialize` and pass the
+14 structural checks (and, if Blender is connected, grow and look right).
+Structure validity ≠ botanical sense — check the plant reads as the target.
+
+## Spec (start here)
+
+- [plantgen-spec.json](plantgen-spec.json): every field — path, type, default,
+  range, unit, endpoint-visual descriptions, enum values, curve x-axes; plus the
+  per-kind capability table (`inflorescence_kinds`) and the curve-shape
+  vocabulary (`curve_shapes`). One lean JSON; the human reference is rendered
+  from it.
+- [plantgen-couplings.md](plantgen-couplings.md): how the parameters interact and
+  calculate — the scope boundary, the size/mass and pipe-model rules, the bend
+  group, the Age model, environment-modifies-never-drives, inertness by kind, and
+  counts/compounding.
+- [plantgen-recipes.md](plantgen-recipes.md): archetype → knobs starting points
+  (nodding head, flat cluster, grass tuft, one-sided bells, umbel globe, weeping
+  panicle, catkins, pendant chains, forking foliage, whorls).
+
+## Worked examples (shipped presets — valid, round-trip-guarded)
+
+- [digitalis_purpurea.json](../../presets/digitalis_purpurea.json): one-sided hanging-bell raceme, basal rosette that bolts
+- [rudbeckia_fulgida.json](../../presets/rudbeckia_fulgida.json): solitary daisy heads on branch tips
+- [anemone_hupehensis.json](../../presets/anemone_hupehensis.json): forked cyme (dichasium)
+- [alopecurus_pratensis.json](../../presets/alopecurus_pratensis.json): multi-stem grass with a dense spike
+- [corylus_avellana.json](../../presets/corylus_avellana.json): hanging catkins on a woody, non-flowering plant
+- [laburnum_anagyroides.json](../../presets/laburnum_anagyroides.json): pendant flower chains borne along the stems (axillary)
+- [lycopodium_clavatum.json](../../presets/lycopodium_clavatum.json): dichotomously forking clubmoss, foliage only
+- [araucaria_araucana.json](../../presets/araucaria_araucana.json): tiered whorls on long internodes

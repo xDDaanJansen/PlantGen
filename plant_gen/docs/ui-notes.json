@@ -1,0 +1,16 @@
+{
+ "panel/Plant Generator": "Adds a plant and sets what applies to the whole of it: the preset, the seed, the Day it is grown to and its calendar, how it lives across years, the growth timelapse and rows of variations.",
+ "panel/Flower Generator": "Adds a FlowerGen flower and, with one selected, edits it: one flower mesh, and its bloom stages baked for a flower component.",
+ "panel/Leaf Generator": "Builds a leaf mesh from an outline, or traces one from a photo (Cutout), for a leaf component.",
+ "panel/Plant Effector": "Shown when an effector empty is selected. Its settings steer the growth of every plant whose Effectors collection holds it.",
+ "panel/Components": "The plant's structure in one tree: its branching levels, and the leaf, bract, flower, bud and fruit components placed on them. The selected row's settings show below the tree.",
+ "panel/Physiology": "How the whole plant behaves: its tropisms and timing, stiffness, pruning, surface, its response to light, obstacles and effectors, senescence, and its rig and wind.",
+ "panel/Mapping & Classification": "Every map on the plant, grouped under the level, component or plant it belongs to, with the selected map's settings below. Custom attributes and classes, which masks and maps can read, are in folds under the list.",
+ "panel/Texturing": "Every material on the plant in one list, the stems' texture scale and the vertex colour channels.",
+ "panel/Debug Tools": "Shown only with Debug Tools on in the add-on's preferences. Diagnostic views, the skeleton inspector, checks, parameter sweeps and these docs.",
+ "Texturing › Vertex Colors/Vertex Colors": "Shows all four channels of the Color attribute at once.",
+ "Texturing › Vertex Colors/Red: Leaf Gradient": "Red runs from 0 at each leaf's attachment to 1 at its tip, and is flat on stems and flowers. A foliage shader uses it to bend leaves more toward their tips.",
+ "Texturing › Vertex Colors/Green: Per Organ": "Green is one random value per leaf or flower, for varying each one's colour or wind phase.",
+ "Texturing › Vertex Colors/Blue: Per Plant": "Blue is one random value for the whole plant, for varying plants against each other.",
+ "Texturing › Vertex Colors/Alpha: Height": "Alpha is the height fraction up the whole plant, 0 at the root to 1 at the top."
+}
