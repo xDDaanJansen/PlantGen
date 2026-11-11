@@ -4,6 +4,10 @@ A Blender add-on for procedural plants, inspired by SpeedTree and Natsura,
 focused on **perennials** (grasses and small perennials). Targets
 **Blender 5.2 LTS+**.
 
+[![Watch the PlantGen 1.0 trailer on YouTube](plant_gen/docs/readme/trailer.jpg)](https://youtu.be/aZQsERks7lU)
+
+**[▶ Watch the trailer on YouTube](https://youtu.be/aZQsERks7lU)** (2:21)
+
 ![PlantGen in Blender: a Rudbeckia in the viewport with the PlantGen sidebar open](plant_gen/docs/readme/blender-ui.jpg)
 
 Plants are **grown, not drawn**: a developmental phytomer simulation builds
